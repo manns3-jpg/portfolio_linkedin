@@ -84,23 +84,7 @@
                     <a href="#story" class="ghost-btn">My Story</a>
                 </div>
 
-                <!-- Stats strip -->
-                <div class="hero-stats fade-up" style="--delay:1s">
-                    <div class="stat">
-                        <span class="stat-num" data-target="500">0</span><span class="stat-suffix">K+</span>
-                        <span class="stat-label">Impressions</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat">
-                        <span class="stat-num" data-target="3500">0</span><span class="stat-suffix">+</span>
-                        <span class="stat-label">Viral Likes</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat">
-                        <span class="stat-num" data-target="200">0</span><span class="stat-suffix">+</span>
-                        <span class="stat-label">Comments</span>
-                    </div>
-                </div>
+
             </div>
         </div>
 
@@ -415,7 +399,7 @@
     });
 
     // ─── Typewriter Effect ─────────────────────────────────────────────────
-    const phrases = ['look... and get hooked to choose.', 'and root for.', 'and pay attention to.'];
+    const phrases = ['look... and get hooked to choose.', 'and root for.'];
     let phraseIndex = 0, charIndex = 0, isDeleting = false;
     const typeEl = document.getElementById('typewriter');
 
@@ -443,20 +427,7 @@
     }
     setTimeout(typewrite, 1400);
 
-    // ─── Counter Animation ─────────────────────────────────────────────────
-    function animateCounter(el) {
-        const target = parseInt(el.dataset.target);
-        const duration = 2000;
-        const start = performance.now();
-        function update(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.floor(eased * target).toLocaleString();
-            if (progress < 1) requestAnimationFrame(update);
-        }
-        requestAnimationFrame(update);
-    }
+
 
     // ─── Intersection Observer ─────────────────────────────────────────────
     const observerOptions = { threshold: 0.15 };
@@ -466,10 +437,7 @@
                 const el = entry.target;
                 const delay = el.style.getPropertyValue('--reveal-delay') || '0s';
                 setTimeout(() => el.classList.add('active'), parseFloat(delay) * 1000);
-                // Counter
-                if (el.closest('.hero-stats')) {
-                    el.querySelectorAll('.stat-num').forEach(animateCounter);
-                }
+
                 observer.unobserve(el);
             }
         });
@@ -477,18 +445,7 @@
 
     document.querySelectorAll('.reveal, .fade-up').forEach(el => observer.observe(el));
 
-    // Stats observer
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.querySelectorAll('.stat-num').forEach(animateCounter);
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
 
-    const statsEl = document.querySelector('.hero-stats');
-    if (statsEl) statsObserver.observe(statsEl);
 
     // ─── 3D Tilt on Cards ──────────────────────────────────────────────────
     document.querySelectorAll('.tilt-card').forEach(card => {
